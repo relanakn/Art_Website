@@ -1,0 +1,348 @@
+/* ============================================
+   Base & Tokens
+   ============================================ */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    /* Apple-style system font stack */
+    --font-body: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+    --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+
+    /* Colour palette — pure, restrained */
+    --bg: #f2f2f7;
+    --surface: rgba(255, 255, 255, 0.72);
+    --surface-solid: #ffffff;
+    --text-primary: #1c1c1e;
+    --text-secondary: #6e6e73;
+    --separator: rgba(60, 60, 67, 0.12);
+    --accent: #1c1c1e;
+
+    /* Motion — spring cubic-beziers */
+    --spring-standard: cubic-bezier(0.34, 1.56, 0.64, 1);   /* gentle overshoot */
+    --spring-enter:    cubic-bezier(0.22, 1, 0.36, 1);       /* fast out, soft land */
+    --spring-exit:     cubic-bezier(0.55, 0, 1, 0.45);
+
+    /* Duration */
+    --dur-quick:  200ms;
+    --dur-normal: 380ms;
+    --dur-slow:   520ms;
+}
+
+/* ============================================
+   Smooth scroll & reduced-motion guard
+   ============================================ */
+html {
+    scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* ============================================
+   Body
+   ============================================ */
+body {
+    font-family: var(--font-body);
+    background-color: var(--bg);
+    color: var(--text-primary);
+    -webkit-font-smoothing: antialiased;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ============================================
+   Header — frosted glass, sticky
+   ============================================ */
+header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 20px 48px;
+    background: rgba(242, 242, 247, 0.78);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border-bottom: 1px solid var(--separator);
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+}
+
+header h1 {
+    font-family: var(--font-display);
+    font-size: clamp(1.4rem, 3vw, 1.9rem);
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    color: var(--text-primary);
+    line-height: 1.1;
+}
+
+header .subtitle {
+    font-size: 0.9rem;
+    font-weight: 300;
+    color: var(--text-secondary);
+    letter-spacing: 0.04em;
+}
+
+/* ============================================
+   Main & Gallery grid
+   ============================================ */
+main {
+    flex: 1;
+    padding: 48px;
+}
+
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+/* ============================================
+   Gallery item — depth, hover spring
+   ============================================ */
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 16px;
+    cursor: pointer;
+    background: var(--surface-solid);
+    /* layered shadow for depth */
+    box-shadow:
+        0 1px 2px rgba(0,0,0,0.07),
+        0 4px 12px rgba(0,0,0,0.08),
+        0 16px 32px rgba(0,0,0,0.06);
+    aspect-ratio: 4 / 3;
+    transition:
+        transform var(--dur-normal) var(--spring-standard),
+        box-shadow var(--dur-normal) var(--spring-enter);
+    will-change: transform;
+}
+
+.gallery-item:hover {
+    transform: scale(1.03) translateY(-4px);
+    box-shadow:
+        0 2px 4px rgba(0,0,0,0.08),
+        0 8px 24px rgba(0,0,0,0.12),
+        0 28px 52px rgba(0,0,0,0.10);
+}
+
+.gallery-item:active {
+    transform: scale(0.98) translateY(0);
+    transition-duration: var(--dur-quick);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform var(--dur-slow) var(--spring-enter);
+}
+
+.gallery-item:hover img {
+    transform: scale(1.06);
+}
+
+/* ============================================
+   Overlay title — fades in on hover
+   ============================================ */
+.overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.52) 0%,
+        rgba(0, 0, 0, 0.08) 55%,
+        transparent 100%
+    );
+    display: flex;
+    align-items: flex-end;
+    padding: 20px;
+    opacity: 0;
+    transition: opacity var(--dur-normal) var(--spring-enter);
+}
+
+.gallery-item:hover .overlay {
+    opacity: 1;
+}
+
+.overlay span {
+    color: #ffffff;
+    font-size: 0.95rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+    transform: translateY(6px);
+    transition: transform var(--dur-normal) var(--spring-enter);
+}
+
+.gallery-item:hover .overlay span {
+    transform: translateY(0);
+}
+
+/* ============================================
+   Lightbox — full-screen with frosted backdrop
+   ============================================ */
+.lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    padding: 24px;
+
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(32px) saturate(120%);
+    -webkit-backdrop-filter: blur(32px) saturate(120%);
+
+    /* Hidden state */
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--dur-normal) var(--spring-exit);
+}
+
+.lightbox.is-open {
+    opacity: 1;
+    pointer-events: auto;
+    transition: opacity var(--dur-normal) var(--spring-enter);
+}
+
+.lightbox-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    max-width: min(90vw, 1000px);
+    /* Spring scale on open */
+    transform: scale(0.88);
+    transition: transform var(--dur-slow) var(--spring-standard);
+}
+
+.lightbox.is-open .lightbox-content {
+    transform: scale(1);
+}
+
+.lightbox-content img {
+    max-width: 100%;
+    max-height: 80dvh;
+    border-radius: 12px;
+    object-fit: contain;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.5);
+    display: block;
+}
+
+.lightbox-title {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.95rem;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+}
+
+/* ============================================
+   Lightbox controls
+   ============================================ */
+.lightbox-close,
+.lightbox-prev,
+.lightbox-next {
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    color: #ffffff;
+    cursor: pointer;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition:
+        background var(--dur-quick) ease,
+        transform var(--dur-normal) var(--spring-standard);
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.lightbox-close {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    width: 44px;
+    height: 44px;
+    font-size: 1.5rem;
+}
+
+.lightbox-prev,
+.lightbox-next {
+    width: 52px;
+    height: 52px;
+    font-size: 2rem;
+    align-self: center;
+}
+
+.lightbox-close:hover,
+.lightbox-prev:hover,
+.lightbox-next:hover {
+    background: rgba(255, 255, 255, 0.26);
+    transform: scale(1.1);
+}
+
+.lightbox-close:active,
+.lightbox-prev:active,
+.lightbox-next:active {
+    transform: scale(0.92);
+    transition-duration: var(--dur-quick);
+}
+
+/* ============================================
+   Footer
+   ============================================ */
+footer {
+    padding: 32px 48px;
+    border-top: 1px solid var(--separator);
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 0.82rem;
+    font-weight: 300;
+    letter-spacing: 0.03em;
+}
+
+/* ============================================
+   Responsive
+   ============================================ */
+@media (max-width: 600px) {
+    header {
+        padding: 16px 20px;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    main {
+        padding: 24px 16px;
+    }
+
+    .gallery {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 12px;
+    }
+
+    .lightbox-prev,
+    .lightbox-next {
+        width: 40px;
+        height: 40px;
+        font-size: 1.6rem;
+    }
+
+    footer {
+        padding: 24px 20px;
+    }
+}

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meine Kunst</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <header>
+        <h1>Mein Name</h1>
+        <p class="subtitle">Kunst &amp; Kreativität</p>
+    </header>
+
+    <main>
+        <section class="gallery" id="gallery">
+
+            <!-- So fügst du ein neues Bild hinzu:
+                 1. Lege deine Bilddatei in den Ordner "images/"
+                 2. Kopiere einen der folgenden Blöcke
+                 3. Ersetze "bilderX.jpg" mit deinem Dateinamen
+                 4. Ersetze "Titel X" mit dem Titel deines Kunstwerks -->
+
+            <div class="gallery-item" data-title="Titel 1">
+                <img src="images/bild1.jpg" alt="Kunstwerk 1" loading="lazy">
+                <div class="overlay"><span>Titel 1</span></div>
+            </div>
+
+            <div class="gallery-item" data-title="Titel 2">
+                <img src="images/bild2.jpg" alt="Kunstwerk 2" loading="lazy">
+                <div class="overlay"><span>Titel 2</span></div>
+            </div>
+
+            <div class="gallery-item" data-title="Titel 3">
+                <img src="images/bild3.jpg" alt="Kunstwerk 3" loading="lazy">
+                <div class="overlay"><span>Titel 3</span></div>
+            </div>
+
+            <div class="gallery-item" data-title="Titel 4">
+                <img src="images/bild4.jpg" alt="Kunstwerk 4" loading="lazy">
+                <div class="overlay"><span>Titel 4</span></div>
+            </div>
+
+            <div class="gallery-item" data-title="Titel 5">
+                <img src="images/bild5.jpg" alt="Kunstwerk 5" loading="lazy">
+                <div class="overlay"><span>Titel 5</span></div>
+            </div>
+
+            <div class="gallery-item" data-title="Titel 6">
+                <img src="images/bild6.jpg" alt="Kunstwerk 6" loading="lazy">
+                <div class="overlay"><span>Titel 6</span></div>
+            </div>
+
+        </section>
+    </main>
+
+    <!-- Lightbox (Bild-Vergrößerung beim Klicken) -->
+    <div class="lightbox" id="lightbox" aria-hidden="true">
+        <button class="lightbox-close" id="lightbox-close" aria-label="Schließen">&times;</button>
+        <button class="lightbox-prev" id="lightbox-prev" aria-label="Vorheriges">&#8249;</button>
+        <div class="lightbox-content">
+            <img src="" alt="" id="lightbox-img">
+            <p class="lightbox-title" id="lightbox-title"></p>
+        </div>
+        <button class="lightbox-next" id="lightbox-next" aria-label="Nächstes">&#8250;</button>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Mein Name. Alle Rechte vorbehalten.</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
