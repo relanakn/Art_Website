@@ -1,43 +1,38 @@
-/* ============================================
-   Base & Tokens
-   ============================================ */
-*, *::before, *::after {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+/* ============================================================
+   Tokens & Reset
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-    /* Apple-style system font stack */
-    --font-body: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
-    --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+    /* Palette */
+    --bg:           #f3ede1;
+    --bg-dark:      #1a1714;
+    --surface:      rgba(243, 237, 225, 0.82);
+    --text:         #1a1714;
+    --text-mid:     #5c5349;
+    --text-muted:   #9a8f83;
+    --sep:          rgba(26, 23, 20, 0.10);
+    --white:        #ffffff;
 
-    /* Colour palette — pure, restrained */
-    --bg: #f2f2f7;
-    --surface: rgba(255, 255, 255, 0.72);
-    --surface-solid: #ffffff;
-    --text-primary: #1c1c1e;
-    --text-secondary: #6e6e73;
-    --separator: rgba(60, 60, 67, 0.12);
-    --accent: #1c1c1e;
+    /* Typography */
+    --font-display: 'Cormorant Garant', Georgia, serif;
+    --font-ui:      'Jost', system-ui, sans-serif;
 
-    /* Motion — spring cubic-beziers */
-    --spring-standard: cubic-bezier(0.34, 1.56, 0.64, 1);   /* gentle overshoot */
-    --spring-enter:    cubic-bezier(0.22, 1, 0.36, 1);       /* fast out, soft land */
-    --spring-exit:     cubic-bezier(0.55, 0, 1, 0.45);
+    /* Motion */
+    --spring:       cubic-bezier(0.34, 1.56, 0.64, 1);
+    --ease-out:     cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-in:      cubic-bezier(0.55, 0, 1, 0.45);
+    --dur-fast:     180ms;
+    --dur-mid:      360ms;
+    --dur-slow:     520ms;
 
-    /* Duration */
-    --dur-quick:  200ms;
-    --dur-normal: 380ms;
-    --dur-slow:   520ms;
+    /* Layout */
+    --header-h:     64px;
+    --filter-h:     56px;
+    --pad-x:        clamp(20px, 5vw, 64px);
 }
 
-/* ============================================
-   Smooth scroll & reduced-motion guard
-   ============================================ */
-html {
-    scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
@@ -46,98 +41,328 @@ html {
     }
 }
 
-/* ============================================
-   Body
-   ============================================ */
 body {
-    font-family: var(--font-body);
-    background-color: var(--bg);
-    color: var(--text-primary);
+    font-family: var(--font-ui);
+    background: var(--bg);
+    color: var(--text);
     -webkit-font-smoothing: antialiased;
     min-height: 100dvh;
     display: flex;
     flex-direction: column;
 }
 
-/* ============================================
-   Header — frosted glass, sticky
-   ============================================ */
-header {
+a { color: inherit; text-decoration: none; }
+button { font-family: var(--font-ui); border: none; cursor: pointer; }
+
+/* ============================================================
+   Header
+   ============================================================ */
+.site-header {
     position: sticky;
     top: 0;
-    z-index: 100;
-    padding: 20px 48px;
-    background: rgba(242, 242, 247, 0.78);
-    backdrop-filter: blur(24px) saturate(180%);
-    -webkit-backdrop-filter: blur(24px) saturate(180%);
-    border-bottom: 1px solid var(--separator);
+    z-index: 200;
+    height: var(--header-h);
+    padding: 0 var(--pad-x);
     display: flex;
-    align-items: baseline;
-    gap: 16px;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--surface);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border-bottom: 1px solid var(--sep);
 }
 
-header h1 {
+.site-logo {
     font-family: var(--font-display);
-    font-size: clamp(1.4rem, 3vw, 1.9rem);
-    font-weight: 600;
-    letter-spacing: -0.025em;
-    color: var(--text-primary);
-    line-height: 1.1;
+    font-size: 1.25rem;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    color: var(--text);
 }
 
-header .subtitle {
-    font-size: 0.9rem;
+.site-nav {
+    display: flex;
+    gap: 32px;
+}
+
+.site-nav a {
+    font-size: 0.78rem;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-mid);
+    transition: color var(--dur-fast) ease;
+}
+
+.site-nav a:hover { color: var(--text); }
+
+/* ============================================================
+   Hero
+   ============================================================ */
+.hero {
+    padding: clamp(72px, 12vw, 140px) var(--pad-x) clamp(64px, 10vw, 120px);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* subtle decorative rule */
+.hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: var(--pad-x);
+    right: var(--pad-x);
+    height: 1px;
+    background: var(--sep);
+}
+
+.hero-eyebrow {
+    font-family: var(--font-ui);
+    font-size: 0.72rem;
+    font-weight: 400;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+.hero-name {
+    font-family: var(--font-display);
+    font-size: clamp(3.6rem, 11vw, 8.5rem);
     font-weight: 300;
-    color: var(--text-secondary);
-    letter-spacing: 0.04em;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    color: var(--text);
 }
 
-/* ============================================
-   Main & Gallery grid
-   ============================================ */
-main {
+.hero-name em {
+    font-style: italic;
+    font-weight: 300;
+}
+
+.hero-tagline {
+    font-size: 0.82rem;
+    font-weight: 300;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-mid);
+}
+
+.hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 8px;
+    padding: 12px 28px;
+    border: 1px solid var(--text);
+    font-size: 0.78rem;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text);
+    transition:
+        background var(--dur-fast) ease,
+        color var(--dur-fast) ease,
+        transform var(--dur-mid) var(--spring);
+}
+
+.hero-cta:hover {
+    background: var(--text);
+    color: var(--bg);
+    transform: translateY(-2px);
+}
+
+/* ============================================================
+   Techniques Section
+   ============================================================ */
+.techniques {
+    padding: clamp(56px, 8vw, 100px) var(--pad-x);
+}
+
+.section-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    font-weight: 300;
+    letter-spacing: -0.01em;
+    color: var(--text);
+    margin-bottom: 36px;
+}
+
+.techniques-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 14px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+}
+
+/* ── Technique card ── */
+.technique-card {
+    position: relative;
+    aspect-ratio: 3 / 4;
+    padding: 24px 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 6px;
+    color: rgba(255,255,255,0.92);
+    overflow: hidden;
+    transition:
+        transform var(--dur-mid) var(--spring),
+        box-shadow var(--dur-mid) var(--ease-out);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12), 0 8px 24px rgba(0,0,0,0.10);
+}
+
+.technique-card:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.18), 0 20px 48px rgba(0,0,0,0.14);
+}
+
+.technique-card:active {
+    transform: scale(0.97);
+    transition-duration: var(--dur-fast);
+}
+
+.technique-card.active {
+    outline: 2px solid rgba(255,255,255,0.7);
+    outline-offset: -3px;
+}
+
+/* Card colour variants */
+.technique-card--all      { background: linear-gradient(155deg, #3a3530, #1a1714); }
+.technique-card--oil      { background: linear-gradient(155deg, #d4a832, #7a5010); }
+.technique-card--watercolor { background: linear-gradient(155deg, #5ba3c0, #1c5f7e); }
+.technique-card--pencil   { background: linear-gradient(155deg, #7e7e7e, #303030); }
+.technique-card--acrylic  { background: linear-gradient(155deg, #c43a3a, #6b1010); }
+.technique-card--digital  { background: linear-gradient(155deg, #5a6dd4, #1c2478); }
+
+.tc-number {
+    position: absolute;
+    top: 18px;
+    left: 20px;
+    font-family: var(--font-ui);
+    font-size: 0.65rem;
+    font-weight: 300;
+    letter-spacing: 0.08em;
+    opacity: 0.55;
+}
+
+.tc-label {
+    font-family: var(--font-display);
+    font-size: clamp(1rem, 1.4vw, 1.3rem);
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+}
+
+.tc-sub {
+    font-size: 0.65rem;
+    font-weight: 300;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.55;
+}
+
+/* ============================================================
+   Gallery Section
+   ============================================================ */
+.gallery-section {
     flex: 1;
-    padding: 48px;
+    padding-bottom: clamp(56px, 8vw, 100px);
 }
 
+/* ── Filter bar ── */
+.filter-bar {
+    position: sticky;
+    top: var(--header-h);
+    z-index: 100;
+    height: var(--filter-h);
+    padding: 0 var(--pad-x);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    overflow-x: auto;
+    background: var(--surface);
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+    border-bottom: 1px solid var(--sep);
+    scrollbar-width: none;
+}
+
+.filter-bar::-webkit-scrollbar { display: none; }
+
+.filter-pill {
+    flex-shrink: 0;
+    padding: 7px 18px;
+    border-radius: 100px;
+    border: 1px solid var(--sep);
+    background: transparent;
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    color: var(--text-mid);
+    transition:
+        background var(--dur-fast) ease,
+        color var(--dur-fast) ease,
+        border-color var(--dur-fast) ease,
+        transform var(--dur-mid) var(--spring);
+}
+
+.filter-pill:hover {
+    color: var(--text);
+    border-color: var(--text);
+    transform: scale(1.04);
+}
+
+.filter-pill.active {
+    background: var(--text);
+    color: var(--bg);
+    border-color: var(--text);
+}
+
+/* ── Gallery grid ── */
 .gallery {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 18px;
+    padding: 32px var(--pad-x) 0;
 }
 
-/* ============================================
-   Gallery item — depth, hover spring
-   ============================================ */
+/* ── Gallery item ── */
 .gallery-item {
     position: relative;
     overflow: hidden;
-    border-radius: 16px;
+    border-radius: 10px;
     cursor: pointer;
-    background: var(--surface-solid);
-    /* layered shadow for depth */
-    box-shadow:
-        0 1px 2px rgba(0,0,0,0.07),
-        0 4px 12px rgba(0,0,0,0.08),
-        0 16px 32px rgba(0,0,0,0.06);
+    background: #d6ccbe;
     aspect-ratio: 4 / 3;
+    box-shadow:
+        0 1px 3px rgba(0,0,0,0.07),
+        0 4px 14px rgba(0,0,0,0.08),
+        0 14px 32px rgba(0,0,0,0.06);
     transition:
-        transform var(--dur-normal) var(--spring-standard),
-        box-shadow var(--dur-normal) var(--spring-enter);
+        transform var(--dur-mid) var(--spring),
+        box-shadow var(--dur-mid) var(--ease-out);
     will-change: transform;
 }
 
+.gallery-item.is-hidden { display: none; }
+
 .gallery-item:hover {
-    transform: scale(1.03) translateY(-4px);
+    transform: scale(1.03) translateY(-5px);
     box-shadow:
-        0 2px 4px rgba(0,0,0,0.08),
-        0 8px 24px rgba(0,0,0,0.12),
-        0 28px 52px rgba(0,0,0,0.10);
+        0 2px 6px rgba(0,0,0,0.09),
+        0 8px 28px rgba(0,0,0,0.12),
+        0 24px 52px rgba(0,0,0,0.10);
 }
 
 .gallery-item:active {
-    transform: scale(0.98) translateY(0);
-    transition-duration: var(--dur-quick);
+    transform: scale(0.97);
+    transition-duration: var(--dur-fast);
 }
 
 .gallery-item img {
@@ -145,53 +370,69 @@ main {
     height: 100%;
     object-fit: cover;
     display: block;
-    transition: transform var(--dur-slow) var(--spring-enter);
+    transition: transform var(--dur-slow) var(--ease-out);
 }
 
-.gallery-item:hover img {
-    transform: scale(1.06);
-}
+.gallery-item:hover img { transform: scale(1.07); }
 
-/* ============================================
-   Overlay title — fades in on hover
-   ============================================ */
+/* ── Overlay ── */
 .overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-        to top,
-        rgba(0, 0, 0, 0.52) 0%,
-        rgba(0, 0, 0, 0.08) 55%,
-        transparent 100%
-    );
+    background: linear-gradient(to top,
+        rgba(26,23,20,0.65) 0%,
+        rgba(26,23,20,0.08) 55%,
+        transparent 100%);
     display: flex;
-    align-items: flex-end;
-    padding: 20px;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 18px 20px;
+    gap: 3px;
     opacity: 0;
-    transition: opacity var(--dur-normal) var(--spring-enter);
+    transition: opacity var(--dur-mid) var(--ease-out);
 }
 
-.gallery-item:hover .overlay {
-    opacity: 1;
-}
+.gallery-item:hover .overlay { opacity: 1; }
 
-.overlay span {
-    color: #ffffff;
-    font-size: 0.95rem;
-    font-weight: 500;
+.ov-title {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 400;
+    color: #fff;
     letter-spacing: -0.01em;
-    text-shadow: 0 1px 4px rgba(0,0,0,0.4);
     transform: translateY(6px);
-    transition: transform var(--dur-normal) var(--spring-enter);
+    transition: transform var(--dur-mid) var(--ease-out);
 }
 
-.gallery-item:hover .overlay span {
-    transform: translateY(0);
+.ov-cat {
+    display: block;
+    font-size: 0.65rem;
+    font-weight: 300;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.65);
+    transform: translateY(6px);
+    transition: transform var(--dur-mid) var(--ease-out) 30ms;
 }
 
-/* ============================================
-   Lightbox — full-screen with frosted backdrop
-   ============================================ */
+.gallery-item:hover .ov-title,
+.gallery-item:hover .ov-cat { transform: translateY(0); }
+
+/* ── No results ── */
+.no-results {
+    padding: 48px var(--pad-x);
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--text-muted);
+    text-align: center;
+}
+
+/* ============================================================
+   Lightbox
+   ============================================================ */
 .lightbox {
     position: fixed;
     inset: 0;
@@ -199,23 +440,20 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 24px;
+    gap: 20px;
     padding: 24px;
-
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(32px) saturate(120%);
-    -webkit-backdrop-filter: blur(32px) saturate(120%);
-
-    /* Hidden state */
+    background: rgba(26, 23, 20, 0.72);
+    backdrop-filter: blur(28px) saturate(120%);
+    -webkit-backdrop-filter: blur(28px) saturate(120%);
     opacity: 0;
     pointer-events: none;
-    transition: opacity var(--dur-normal) var(--spring-exit);
+    transition: opacity var(--dur-mid) var(--ease-in);
 }
 
 .lightbox.is-open {
     opacity: 1;
     pointer-events: auto;
-    transition: opacity var(--dur-normal) var(--spring-enter);
+    transition: opacity var(--dur-mid) var(--ease-out);
 }
 
 .lightbox-content {
@@ -223,68 +461,78 @@ main {
     flex-direction: column;
     align-items: center;
     gap: 16px;
-    max-width: min(90vw, 1000px);
-    /* Spring scale on open */
+    max-width: min(88vw, 1000px);
     transform: scale(0.88);
-    transition: transform var(--dur-slow) var(--spring-standard);
+    transition: transform var(--dur-slow) var(--spring);
 }
 
-.lightbox.is-open .lightbox-content {
-    transform: scale(1);
-}
+.lightbox.is-open .lightbox-content { transform: scale(1); }
 
 .lightbox-content img {
     max-width: 100%;
-    max-height: 80dvh;
-    border-radius: 12px;
+    max-height: 78dvh;
+    border-radius: 8px;
     object-fit: contain;
-    box-shadow: 0 32px 80px rgba(0,0,0,0.5);
     display: block;
+    box-shadow: 0 24px 72px rgba(0,0,0,0.55);
+}
+
+.lightbox-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
 }
 
 .lightbox-title {
-    color: rgba(255, 255, 255, 0.85);
-    font-size: 0.95rem;
+    font-family: var(--font-display);
+    font-size: 1.15rem;
     font-weight: 400;
-    letter-spacing: 0.02em;
+    font-style: italic;
+    color: rgba(255,255,255,0.9);
+    letter-spacing: 0.01em;
 }
 
-/* ============================================
-   Lightbox controls
-   ============================================ */
+.lightbox-cat {
+    font-size: 0.68rem;
+    font-weight: 300;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+}
+
+/* ── Lightbox controls ── */
 .lightbox-close,
 .lightbox-prev,
 .lightbox-next {
-    background: rgba(255, 255, 255, 0.14);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    color: #ffffff;
-    cursor: pointer;
+    background: rgba(255,255,255,0.10);
+    border: 1px solid rgba(255,255,255,0.16);
+    backdrop-filter: blur(10px);
+    color: rgba(255,255,255,0.88);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition:
-        background var(--dur-quick) ease,
-        transform var(--dur-normal) var(--spring-standard);
-    line-height: 1;
     flex-shrink: 0;
+    transition:
+        background var(--dur-fast) ease,
+        transform var(--dur-mid) var(--spring);
 }
 
 .lightbox-close {
     position: fixed;
-    top: 24px;
-    right: 24px;
+    top: 20px;
+    right: 20px;
     width: 44px;
     height: 44px;
-    font-size: 1.5rem;
+    font-size: 1.4rem;
+    line-height: 1;
 }
 
 .lightbox-prev,
 .lightbox-next {
-    width: 52px;
-    height: 52px;
+    width: 50px;
+    height: 50px;
     font-size: 2rem;
     align-self: center;
 }
@@ -292,57 +540,69 @@ main {
 .lightbox-close:hover,
 .lightbox-prev:hover,
 .lightbox-next:hover {
-    background: rgba(255, 255, 255, 0.26);
+    background: rgba(255,255,255,0.22);
     transform: scale(1.1);
 }
 
 .lightbox-close:active,
 .lightbox-prev:active,
 .lightbox-next:active {
-    transform: scale(0.92);
-    transition-duration: var(--dur-quick);
+    transform: scale(0.91);
+    transition-duration: var(--dur-fast);
 }
 
-/* ============================================
+/* ============================================================
    Footer
-   ============================================ */
+   ============================================================ */
 footer {
-    padding: 32px 48px;
-    border-top: 1px solid var(--separator);
-    text-align: center;
-    color: var(--text-secondary);
-    font-size: 0.82rem;
-    font-weight: 300;
-    letter-spacing: 0.03em;
+    padding: 40px var(--pad-x);
+    border-top: 1px solid var(--sep);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
 }
 
-/* ============================================
+.footer-name {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--text);
+}
+
+.footer-copy {
+    font-size: 0.72rem;
+    font-weight: 300;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+}
+
+/* ============================================================
    Responsive
-   ============================================ */
-@media (max-width: 600px) {
-    header {
-        padding: 16px 20px;
-        flex-direction: column;
-        gap: 4px;
+   ============================================================ */
+@media (max-width: 900px) {
+    .techniques-grid {
+        grid-template-columns: repeat(3, minmax(120px, 1fr));
+    }
+}
+
+@media (max-width: 560px) {
+    .site-nav { display: none; }
+
+    .techniques-grid {
+        grid-template-columns: repeat(3, minmax(100px, 1fr));
+        gap: 10px;
     }
 
-    main {
-        padding: 24px 16px;
-    }
+    .technique-card { padding: 16px 14px; }
 
     .gallery {
-        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-        gap: 12px;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        padding: 20px var(--pad-x) 0;
     }
 
     .lightbox-prev,
-    .lightbox-next {
-        width: 40px;
-        height: 40px;
-        font-size: 1.6rem;
-    }
-
-    footer {
-        padding: 24px 20px;
-    }
+    .lightbox-next { width: 40px; height: 40px; font-size: 1.5rem; }
 }

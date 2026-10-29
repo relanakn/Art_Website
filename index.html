@@ -3,74 +3,180 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meine Kunst</title>
+    <title>Miguel San Pedro — Fine Art</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garant:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-    <header>
-        <h1>Mein Name</h1>
-        <p class="subtitle">Kunst &amp; Kreativität</p>
+    <header class="site-header">
+        <a href="#" class="site-logo">Miguel San Pedro</a>
+        <nav class="site-nav">
+            <a href="#techniques">Techniken</a>
+            <a href="#gallery-section">Galerie</a>
+        </nav>
     </header>
 
-    <main>
-        <section class="gallery" id="gallery">
+    <!-- ── Hero ───────────────────────────────────────────── -->
+    <section class="hero">
+        <p class="hero-eyebrow">Fine Art</p>
+        <h1 class="hero-name">Miguel<br><em>San Pedro</em></h1>
+        <p class="hero-tagline">Malerei &nbsp;·&nbsp; Zeichnung &nbsp;·&nbsp; Digitale Kunst</p>
+        <a href="#gallery-section" class="hero-cta">Galerie ansehen</a>
+    </section>
+
+    <!-- ── Techniques ─────────────────────────────────────── -->
+    <section class="techniques" id="techniques">
+        <h2 class="section-title">Kunsttechniken</h2>
+        <div class="techniques-grid">
+
+            <button class="technique-card technique-card--all active" data-filter="all">
+                <span class="tc-number">★</span>
+                <span class="tc-label">Alle Werke</span>
+                <span class="tc-sub">All Works</span>
+            </button>
+
+            <button class="technique-card technique-card--oil" data-filter="oil">
+                <span class="tc-number">01</span>
+                <span class="tc-label">Ölmalerei</span>
+                <span class="tc-sub">Oil Painting</span>
+            </button>
+
+            <button class="technique-card technique-card--watercolor" data-filter="watercolor">
+                <span class="tc-number">02</span>
+                <span class="tc-label">Aquarell</span>
+                <span class="tc-sub">Watercolour</span>
+            </button>
+
+            <button class="technique-card technique-card--pencil" data-filter="pencil">
+                <span class="tc-number">03</span>
+                <span class="tc-label">Bleistift<br>&amp; Kohle</span>
+                <span class="tc-sub">Pencil &amp; Charcoal</span>
+            </button>
+
+            <button class="technique-card technique-card--acrylic" data-filter="acrylic">
+                <span class="tc-number">04</span>
+                <span class="tc-label">Acryl</span>
+                <span class="tc-sub">Acrylic</span>
+            </button>
+
+            <button class="technique-card technique-card--digital" data-filter="digital">
+                <span class="tc-number">05</span>
+                <span class="tc-label">Digitale Kunst</span>
+                <span class="tc-sub">Digital Art</span>
+            </button>
+
+        </div>
+    </section>
+
+    <!-- ── Gallery ────────────────────────────────────────── -->
+    <section class="gallery-section" id="gallery-section">
+
+        <div class="filter-bar" id="filter-bar" role="group" aria-label="Galerie filtern">
+            <button class="filter-pill active" data-filter="all">Alle</button>
+            <button class="filter-pill" data-filter="oil">Ölmalerei</button>
+            <button class="filter-pill" data-filter="watercolor">Aquarell</button>
+            <button class="filter-pill" data-filter="pencil">Bleistift &amp; Kohle</button>
+            <button class="filter-pill" data-filter="acrylic">Acryl</button>
+            <button class="filter-pill" data-filter="digital">Digitale Kunst</button>
+        </div>
+
+        <div class="gallery" id="gallery">
 
             <!-- So fügst du ein neues Bild hinzu:
-                 1. Lege deine Bilddatei in den Ordner "images/"
-                 2. Kopiere einen der folgenden Blöcke
-                 3. Ersetze "bilderX.jpg" mit deinem Dateinamen
-                 4. Ersetze "Titel X" mit dem Titel deines Kunstwerks -->
+                 1. Lege die Datei in images/
+                 2. Kopiere einen Block unten
+                 3. Passe src, data-category und data-title an
+                 Kategorien: oil | watercolor | pencil | acrylic | digital -->
 
-            <div class="gallery-item" data-title="Titel 1">
-                <img src="images/bild1.jpg" alt="Kunstwerk 1" loading="lazy">
-                <div class="overlay"><span>Titel 1</span></div>
+            <div class="gallery-item" data-category="oil" data-title="Stille Komposition">
+                <img src="images/bild1.jpg" alt="Stille Komposition – Ölmalerei" loading="lazy">
+                <div class="overlay">
+                    <span class="ov-title">Stille Komposition</span>
+                    <span class="ov-cat">Ölmalerei</span>
+                </div>
             </div>
 
-            <div class="gallery-item" data-title="Titel 2">
-                <img src="images/bild2.jpg" alt="Kunstwerk 2" loading="lazy">
-                <div class="overlay"><span>Titel 2</span></div>
+            <div class="gallery-item" data-category="watercolor" data-title="Morgenlicht">
+                <img src="images/bild2.jpg" alt="Morgenlicht – Aquarell" loading="lazy">
+                <div class="overlay">
+                    <span class="ov-title">Morgenlicht</span>
+                    <span class="ov-cat">Aquarell</span>
+                </div>
             </div>
 
-            <div class="gallery-item" data-title="Titel 3">
-                <img src="images/bild3.jpg" alt="Kunstwerk 3" loading="lazy">
-                <div class="overlay"><span>Titel 3</span></div>
+            <div class="gallery-item" data-category="pencil" data-title="Studie I">
+                <img src="images/bild3.jpg" alt="Studie I – Bleistift" loading="lazy">
+                <div class="overlay">
+                    <span class="ov-title">Studie I</span>
+                    <span class="ov-cat">Bleistift &amp; Kohle</span>
+                </div>
             </div>
 
-            <div class="gallery-item" data-title="Titel 4">
-                <img src="images/bild4.jpg" alt="Kunstwerk 4" loading="lazy">
-                <div class="overlay"><span>Titel 4</span></div>
+            <div class="gallery-item" data-category="acrylic" data-title="Tiefenraum">
+                <img src="images/bild4.jpg" alt="Tiefenraum – Acryl" loading="lazy">
+                <div class="overlay">
+                    <span class="ov-title">Tiefenraum</span>
+                    <span class="ov-cat">Acryl</span>
+                </div>
             </div>
 
-            <div class="gallery-item" data-title="Titel 5">
-                <img src="images/bild5.jpg" alt="Kunstwerk 5" loading="lazy">
-                <div class="overlay"><span>Titel 5</span></div>
+            <div class="gallery-item" data-category="digital" data-title="Fragment">
+                <img src="images/bild5.jpg" alt="Fragment – Digitale Kunst" loading="lazy">
+                <div class="overlay">
+                    <span class="ov-title">Fragment</span>
+                    <span class="ov-cat">Digitale Kunst</span>
+                </div>
             </div>
 
-            <div class="gallery-item" data-title="Titel 6">
-                <img src="images/bild6.jpg" alt="Kunstwerk 6" loading="lazy">
-                <div class="overlay"><span>Titel 6</span></div>
+            <div class="gallery-item" data-category="oil" data-title="Abendrot">
+                <img src="images/bild6.jpg" alt="Abendrot – Ölmalerei" loading="lazy">
+                <div class="overlay">
+                    <span class="ov-title">Abendrot</span>
+                    <span class="ov-cat">Ölmalerei</span>
+                </div>
             </div>
 
-        </section>
-    </main>
+            <div class="gallery-item" data-category="watercolor" data-title="Regen">
+                <img src="images/bild7.jpg" alt="Regen – Aquarell" loading="lazy">
+                <div class="overlay">
+                    <span class="ov-title">Regen</span>
+                    <span class="ov-cat">Aquarell</span>
+                </div>
+            </div>
 
-    <!-- Lightbox (Bild-Vergrößerung beim Klicken) -->
+            <div class="gallery-item" data-category="pencil" data-title="Studie II">
+                <img src="images/bild8.jpg" alt="Studie II – Kohle" loading="lazy">
+                <div class="overlay">
+                    <span class="ov-title">Studie II</span>
+                    <span class="ov-cat">Bleistift &amp; Kohle</span>
+                </div>
+            </div>
+
+        </div>
+
+        <p class="no-results" id="no-results" hidden>Keine Werke in dieser Kategorie.</p>
+    </section>
+
+    <!-- ── Lightbox ───────────────────────────────────────── -->
     <div class="lightbox" id="lightbox" aria-hidden="true">
         <button class="lightbox-close" id="lightbox-close" aria-label="Schließen">&times;</button>
         <button class="lightbox-prev" id="lightbox-prev" aria-label="Vorheriges">&#8249;</button>
         <div class="lightbox-content">
             <img src="" alt="" id="lightbox-img">
-            <p class="lightbox-title" id="lightbox-title"></p>
+            <div class="lightbox-meta">
+                <p class="lightbox-title" id="lightbox-title"></p>
+                <p class="lightbox-cat"   id="lightbox-cat"></p>
+            </div>
         </div>
         <button class="lightbox-next" id="lightbox-next" aria-label="Nächstes">&#8250;</button>
     </div>
 
     <footer>
-        <p>&copy; 2025 Mein Name. Alle Rechte vorbehalten.</p>
+        <p class="footer-name">Miguel San Pedro</p>
+        <p class="footer-copy">&copy; 2025 &nbsp;·&nbsp; Alle Rechte vorbehalten</p>
     </footer>
 
     <script src="js/main.js"></script>
