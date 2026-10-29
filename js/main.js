@@ -9,7 +9,8 @@
     const btnNext      = document.getElementById('lightbox-next');
     const noResults    = document.getElementById('no-results');
     const filterPills  = document.querySelectorAll('.filter-pill');
-    const techCards    = document.querySelectorAll('.technique-card');
+    const techCards    = document.querySelectorAll('.technique-tile');
+    const countEl      = document.getElementById('technique-count');
 
     let currentLbIndex = 0;   // index within visible items
 
@@ -44,7 +45,9 @@
             }
         });
 
-        noResults.hidden = visibleItems().length > 0;
+        const count = visibleItems().length;
+        noResults.hidden = count > 0;
+        if (countEl) countEl.textContent = count + ' ' + (count === 1 ? 'Werk' : 'Werke');
     }
 
     // Filter pill clicks
